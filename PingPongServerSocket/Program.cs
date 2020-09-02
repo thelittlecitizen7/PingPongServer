@@ -13,7 +13,7 @@ namespace User2Chat
     {
         static void Main(string[] args)
         {
-            int port = 11111;//int.Parse(args[0]);
+            int port = int.Parse(args[0]);
             IServer server = new TCPServerSocket(port);
             server.Listen();
         }

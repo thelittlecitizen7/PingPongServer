@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PingPongClientSocket;
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
@@ -36,8 +37,11 @@ namespace User2Chat.Servers.TCPSocket
 
                     int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
 
-                    string dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                    Console.WriteLine("Received : " + dataReceived);
+                    ConverterObject converterObject = new ConverterObject();
+                    var person = converterObject.FromByteArray(buffer);
+
+
+                    Console.WriteLine("Received : " + person.ToString()) ;
 
 
                     if (data == "exit")
@@ -45,7 +49,10 @@ namespace User2Chat.Servers.TCPSocket
                         CloseSocket();
                         break;
                     }
-                    Byte[] sendBytes = Encoding.ASCII.GetBytes(dataReceived);
+
+                    ConverterObject converterObject2 = new ConverterObject();
+                    var sendBytes = converterObject2.ObjectToByteArray(person);
+
                     nwStream.Write(sendBytes, 0, sendBytes.Length);
                 }
                 catch (Exception e)
